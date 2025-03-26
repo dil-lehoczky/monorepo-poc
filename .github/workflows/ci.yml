@@ -29,6 +29,7 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
+          cache-dependency-path: "./angular-monorepo/pnpm-lock.yaml"
 
       - run: pnpm install --frozen-lockfile
 
