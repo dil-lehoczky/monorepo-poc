@@ -10,12 +10,15 @@ permissions:
   actions: read
   contents: read
 
+env:
+  WORKING_DIRECTORY: "./angular-monorepo"
+
 jobs:
   main:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./angular-monorepo
+        working-directory: ${{env.WORKING_DIRECTORY}}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,7 +32,7 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
-          cache-dependency-path: "./angular-monorepo/pnpm-lock.yaml"
+          cache-dependency-path: "${{env.WORKING_DIRECTORY}}/pnpm-lock.yaml"
 
       - run: pnpm install --frozen-lockfile
 
@@ -37,7 +40,7 @@ jobs:
         uses: nrwl/nx-set-shas@v4
         with:
           main-branch-name: "main"
-          working-directory: "./angular-monorepo"
+          working-directory: ${{env.WORKING_DIRECTORY}}
 
       - name: "Get affected projects"
         id: affected-projects
